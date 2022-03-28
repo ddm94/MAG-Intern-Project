@@ -1,77 +1,145 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
+    #region Variables
+    public int score = 0;
+    [Tooltip("Change the scale of the tile the mouse is currently on.")]
+    [Range(1.1f, 1.5f)]
+    public float tileScaleMultiplier;
 
     private int x;
     private int y;
 
-    private BoardManager.TileType tileType;
-    private BoardManager boardManager;
+    private Vector3 tileScale;
+    private Vector3 storeTileScale;
 
-    #region Getters
-    public int X { get { return x; } }
-    public int Y { get { return y; } }
-    public BoardManager.TileType TileType { get { return tileType; } }
+    private BoardManager.TileType tileType;
+
+    private MovableTile movableTileComponent;
+    private TileColor tileColorComponent;
+    private ClearableTile clearableTileComponent;
     #endregion
 
-    public enum TileColors {none, red, green, blue, yellow};
-    public TileColors tileColor = TileColors.none;
+    #region Getters & Setters
+    public int X { get { return x; } set { if (IsMovable()) x = value; } }
+    public int Y { get { return y; } set { if (IsMovable()) y = value; } }
 
-    // Start is called before the first frame update
-    void Start()
+    public BoardManager.TileType GetTileType { get { return tileType; } }
+
+    public MovableTile GetMovableTileComponent { get { return movableTileComponent; } }
+
+    public TileColor GetTileColorComponent { get { return tileColorComponent; } }
+
+    public ClearableTile GetClearableTileComponent { get { return clearableTileComponent; } }
+
+    #endregion
+
+    private void Awake()
     {
-        ChangeTileColorRandom();
+        movableTileComponent = GetComponent<MovableTile>();
+        tileColorComponent = GetComponent<TileColor>();
+        clearableTileComponent = GetComponent<ClearableTile>();
+    }
+
+    private void Start()
+    {
+        tileScale = transform.localScale;
+        storeTileScale = tileScale;
     }
 
     public void Init(int _x, int _y, BoardManager _boardManager, BoardManager.TileType _tileType)
     {
         x = _x;
         y = _y;
-        boardManager = _boardManager;
+        BoardManager.Instance = _boardManager;
         tileType = _tileType;
     }
 
-    void ChangeTileColorRandom()
+    #region Adjacent Tiles
+    // Return the adjacent tiles to this tile
+    public Tile Left => x > 0 ? BoardManager.Instance.GetTiles[x - 1, y] : null;
+    public Tile Top => y > 0 ? BoardManager.Instance.GetTiles[x, y - 1] : null;
+    public Tile Right => x < BoardManager.Instance.GetRows - 1 ? BoardManager.Instance.GetTiles[x + 1, y] : null;
+    public Tile Bottom => y < BoardManager.Instance.GetColumns - 1 ? BoardManager.Instance.GetTiles[x, y + 1] : null;
+
+    // We store the adjcent tiles in an array so that we can return them all at once.
+    public Tile[] Neighbours => new[]
     {
-        // Get the values of the TileColors Enum
-        Array tileColors = Enum.GetValues(typeof(TileColors));
+        Left,
+        Top,
+        Right,
+        Bottom,
+    };
 
-        // Get a random number representing the colours
-        int randColor = UnityEngine.Random.Range(1, tileColors.Length);
+    /// <summary>
+    /// A recursive method to get the all the adjacent tiles.
+    /// </summary>
+    /// <param name="exclude">A list to make sure that we never double check a tile that has already been checked before.</param>
+    /// <returns>A list of all the connected tiles to this tile</returns>
+    public List<Tile> GetConnectedTiles(List<Tile> exclude = null)
+    {
+        // Initially return itself
+        List<Tile> result = new List<Tile>() { this };
 
-        TileColors randTileColor = (TileColors)tileColors.GetValue(randColor);
+        if (exclude == null)
+        {
+            // exclude = a new list that contains this tile.
+            exclude = new List<Tile> { this };
+        }
+        else
+        {
+            exclude.Add(this);
+        }
 
-        // Apply that tileColor
-        ChangeTileColor(randTileColor);
+        foreach (Tile neighbour in Neighbours)
+        {
+            // Skip the neighbour
+            // We use the keyword continue to break one iteration, if one of the below conditions occurs, and we continue with the next iteration in the loop.
+            if (neighbour == null || exclude.Contains(neighbour) || neighbour.tileColorComponent.TileColors != tileColorComponent.TileColors) continue;
+
+            // Recursive 
+            result.AddRange(neighbour.GetConnectedTiles(exclude));
+        }
+
+        return result;
+    }
+    #endregion
+
+    #region Mouse Events
+    private void OnMouseEnter()
+    {
+        // Make a new anim 
+        transform.localScale = tileScale * tileScaleMultiplier;
     }
 
-    void ChangeTileColor(TileColors tileColor)
+    private void OnMouseExit()
     {
-        SpriteRenderer tileImage = GetComponent<SpriteRenderer>();
+        transform.localScale = storeTileScale;
+    }
 
-        switch (tileColor)
-        {
-            case TileColors.none:
-                break;
-            case TileColors.red:
-                tileImage.color = Color.red;
-                break;
-            case TileColors.green:
-                tileImage.color = Color.green;
-                break;
-            case TileColors.blue:
-                tileImage.color = Color.blue;
-                break;
-            case TileColors.yellow:
-                tileImage.color = Color.yellow;
-                break;
-            default:
-                break;
-        }
+    private void OnMouseDown()
+    {
+        BoardManager.Instance.DeleteConnectedTiles(X, Y);
+    }
+    #endregion
+
+    // Returns true if it exists
+    public bool IsMovable()
+    {
+        return movableTileComponent != null;
+    }
+
+    // Returns true if it exists
+    public bool IsColored()
+    {
+        return tileColorComponent != null;
+    }
+
+    // Returns true if it exists
+    public bool IsClearable()
+    {
+        return clearableTileComponent != null;
     }
 }

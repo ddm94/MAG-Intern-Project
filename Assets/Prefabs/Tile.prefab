@@ -10,7 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 343289809007640929}
   - component: {fileID: 366293559727397609}
+  - component: {fileID: 6531952857086837379}
+  - component: {fileID: 6992944333178421830}
   - component: {fileID: -2229155809009815027}
+  - component: {fileID: 5297315743111509804}
+  - component: {fileID: -5471351980444341020}
+  - component: {fileID: -4885394235701387811}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -71,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,6 +88,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &6531952857086837379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442849748456432589}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.16, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &6992944333178421830
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442849748456432589}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec7f114187750cc4ba9654139db3eb47, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-2229155809009815027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,4 +132,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6b3348a09d4e44f89ed1b468709cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileColor: 0
+  score: 0
+  tileScaleMultiplier: 1.3
+--- !u!114 &5297315743111509804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442849748456432589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9366651a67c354ca8562828c8e45dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorSprite:
+  - tileColor: 0
+    sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - tileColor: 1
+    sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - tileColor: 2
+    sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - tileColor: 3
+    sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &-5471351980444341020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442849748456432589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af025b033176f744992d99f993b6e955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4885394235701387811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7442849748456432589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85695140e8869aa4cb7c2ab4c69a5aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearAnimation: {fileID: 7400000, guid: a89d7ba143608a94d8b3dd7af93d604a, type: 2}
