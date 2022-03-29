@@ -66,9 +66,6 @@ public class TileColor : MonoBehaviour
         if (colorSpriteDictionary.ContainsKey(newColor))
         {
             tileImage.sprite = colorSpriteDictionary[newColor];
-            // Uncomment this to activate the color assign
-            // NOTE: If you do, make sure to replace the sprites for each tile in the TilePrefab object.
-            // Replace the sprites with the "White Tile" sprite; a white square.
             ChangeTileColor(newColor);
         }
     }
