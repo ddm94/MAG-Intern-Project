@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     #region Variables
+
     [Header("Grid Size")]
     [SerializeField] private int rows = 9;
     [SerializeField] private int columns = 9;
@@ -59,8 +60,8 @@ public class BoardManager : MonoBehaviour
     public int GetRows { get { return rows; } }
     public int GetColumns { get { return columns; } }
     public int GetGridSize { get { return gridSize; } }
-    public float GetSpacing { get { return spacing; } }
     public int GetReadyTilesCount { get { return readyTilesCount; } }
+    public float GetSpacing { get { return spacing; } }
     public bool GetFillingGrid { get { return fillingGrid; } }
     #endregion
 
@@ -302,6 +303,9 @@ public class BoardManager : MonoBehaviour
                     DeleteTile(tile.X, tile.Y);
 
                 StartCoroutine(FillGrid());
+
+                if (LevelManager.Instance != null)
+                    LevelManager.Instance.OnPlayerMove();
             }
         }
     }

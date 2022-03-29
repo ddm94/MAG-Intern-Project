@@ -5,15 +5,18 @@ public class Tile : MonoBehaviour
 {
     #region Variables
     public int score = 0;
-    [Tooltip("Change the scale of the tile the mouse is currently on.")]
-    [Range(1.1f, 1.5f)]
-    public float tileScaleMultiplier;
+    // NOTE: This no longer works since we are using the animator controller
+    // to modify the tile's scale when it gets deleted.
+    // Therefore, I have commented all the lines that refer to changing the scale of a tile.
+    //[Tooltip("Change the scale of the tile the mouse is currently on.")]
+    //[Range(1.1f, 1.5f)]
+    //public float tileScaleMultiplier;
 
     private int x;
     private int y;
 
-    private Vector3 tileScale;
-    private Vector3 storeTileScale;
+    //private Vector3 tileScale;
+    //private Vector3 storeTileScale;
 
     private BoardManager.TileType tileType;
 
@@ -45,8 +48,8 @@ public class Tile : MonoBehaviour
 
     private void Start()
     {
-        tileScale = transform.localScale;
-        storeTileScale = tileScale;
+        //tileScale = transform.localScale;
+        //storeTileScale = tileScale;
     }
 
     public void Init(int _x, int _y, BoardManager _boardManager, BoardManager.TileType _tileType)
@@ -110,18 +113,23 @@ public class Tile : MonoBehaviour
     #region Mouse Events
     private void OnMouseEnter()
     {
-        // Make a new anim 
-        transform.localScale = tileScale * tileScaleMultiplier;
+        // Multiply the scale of the tile by tileScaleMultiplier
+        //transform.localScale = tileScale * tileScaleMultiplier;
     }
 
     private void OnMouseExit()
     {
-        transform.localScale = storeTileScale;
+        // Restore the scale to its default value
+        //transform.localScale = storeTileScale;
     }
 
     private void OnMouseDown()
     {
-        BoardManager.Instance.DeleteConnectedTiles(X, Y);
+        // Do nothing if the game is over.
+        if (LevelManager.Instance != null && LevelManager.Instance.GetGameOver)
+            return;
+
+        BoardManager.Instance.DeleteConnectedTiles(x, y);
     }
     #endregion
 

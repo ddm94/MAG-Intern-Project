@@ -132,8 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6b3348a09d4e44f89ed1b468709cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  tileScaleMultiplier: 1.3
+  score: 100
 --- !u!114 &5297315743111509804
 MonoBehaviour:
   m_ObjectHideFlags: 0

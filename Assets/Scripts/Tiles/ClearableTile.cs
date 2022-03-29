@@ -20,6 +20,9 @@ public class ClearableTile : MonoBehaviour
 
     public void Clear()
     {
+        if (LevelManager.Instance != null)
+            LevelManager.Instance.OnPieceCleared(tile);
+
         isBeingCleared = true;
         StartCoroutine(ClearAnimationCoroutine());
     }
