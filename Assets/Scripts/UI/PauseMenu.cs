@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pausePanel;
     public Button pauseButton;
 
-    private bool pauseIsClicked = false;
+    public static bool pauseIsClicked = false;
 
     private void Start()
     {

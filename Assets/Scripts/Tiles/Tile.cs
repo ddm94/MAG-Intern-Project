@@ -126,7 +126,7 @@ public class Tile : MonoBehaviour
     private void OnMouseDown()
     {
         // Do nothing if the game is over.
-        if (LevelManager.Instance != null && LevelManager.Instance.GetGameOver)
+        if (LevelManager.Instance != null && LevelManager.Instance.GetGameOver || PauseMenu.pauseIsClicked)
             return;
 
         BoardManager.Instance.DeleteConnectedTiles(x, y);
