@@ -61,8 +61,12 @@ public class Tile : MonoBehaviour
     }
 
     #region Adjacent Tiles
+    // Expression body definition to implement read-only properties
+    // They are similar to lambdas but fundamentally different.
+    // Also, unlike lambdas, they are accessible via their name.
+
     // Return the adjacent tiles to this tile
-    public Tile Left => x > 0 ? BoardManager.Instance.GetTiles[x - 1, y] : null;
+    public Tile Left => x > 0 ? BoardManager.Instance.GetTiles[x - 1, y] : null;  // If X = 0, we can not return anything to our left because there are no tiles to our left. Therefore we return null.
     public Tile Top => y > 0 ? BoardManager.Instance.GetTiles[x, y - 1] : null;
     public Tile Right => x < BoardManager.Instance.GetRows - 1 ? BoardManager.Instance.GetTiles[x + 1, y] : null;
     public Tile Bottom => y < BoardManager.Instance.GetColumns - 1 ? BoardManager.Instance.GetTiles[x, y + 1] : null;

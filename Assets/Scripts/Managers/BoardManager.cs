@@ -5,7 +5,6 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     #region Variables
-
     [Header("Grid Size")]
     [SerializeField] private int rows = 9;
     [SerializeField] private int columns = 9;
@@ -70,7 +69,12 @@ public class BoardManager : MonoBehaviour
     //======================================================================
     private void Awake()
     {
-        Instance = this;
+        // Singleton Pattern
+        // If there is an instance, and it is not me, delete myself
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
 
         gridSize = rows * columns;
     }
@@ -198,7 +202,7 @@ public class BoardManager : MonoBehaviour
                 // If not movable we can not move it down to fill the empty space and we can ignore it.
                 if (tile.IsMovable())
                 {
-                    // Get the tile below the current one
+                    // Get the tile below the current one - Remember 0 is at the top
                     Tile tileBelow = tiles[x, y + 1];
 
                     // Check that it is empty
@@ -220,6 +224,7 @@ public class BoardManager : MonoBehaviour
             }
         }
 
+        // After checking all the rows we reach the top to see if there is any empty spaces
         // Top Row
         for (int x = 0; x < rows; x++)
         {
@@ -289,7 +294,7 @@ public class BoardManager : MonoBehaviour
 
         // We check that the tiles that are ready to be popped are equal to the size of the grid given by rows * columns,
         // and that the grid is not currently being refilled with new tiles.
-        // This way, popping a tile is only possible when all the tiles are ready to interacted with.
+        // This way, popping a tile is only possible when all the tiles are ready to be interacted with.
         if (readyTilesCount == gridSize && !fillingGrid)
         {
             // We check the adjacent tiles to the one we have passed the x and y coordinates; the one we have clicked on.
@@ -304,6 +309,7 @@ public class BoardManager : MonoBehaviour
 
                 StartCoroutine(FillGrid());
 
+                // Update the moves on the UI
                 if (LevelManager.Instance != null)
                     LevelManager.Instance.OnPlayerMove();
             }

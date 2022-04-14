@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
         MOVES,
     };
 
+    // Protected - It can be used within this class or a derived class
     protected LevelType levelType;
 
     protected int currentScore;
