@@ -1,4 +1,4 @@
-# MAG-Intern-Project
+# Popdaco Project
  A matching game in the style of Toon Blast.
 
 # References:
